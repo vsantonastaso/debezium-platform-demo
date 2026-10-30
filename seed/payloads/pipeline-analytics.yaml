@@ -1,0 +1,6 @@
+name: analytics-pipeline
+logLevel: INFO
+source:
+  id: {{ANALYTICS_SOURCE_ID}}
+destination:
+  id: {{ANALYTICS_DEST_ID}}

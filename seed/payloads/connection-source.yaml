@@ -1,0 +1,8 @@
+name: source-postgres
+type: POSTGRESQL
+config:
+  hostname: source-postgresql
+  port: 5432
+  username: debezium
+  password: debezium
+  database: debezium

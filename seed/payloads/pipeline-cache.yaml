@@ -1,0 +1,6 @@
+name: cache-pipeline
+logLevel: INFO
+source:
+  id: {{CACHE_SOURCE_ID}}
+destination:
+  id: {{CACHE_DEST_ID}}

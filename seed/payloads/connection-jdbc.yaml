@@ -1,0 +1,6 @@
+name: warehouse-jdbc
+type: JDBC
+config:
+  url: jdbc:postgresql://warehouse-postgresql:5432/warehouse
+  username: warehouse
+  password: warehouse

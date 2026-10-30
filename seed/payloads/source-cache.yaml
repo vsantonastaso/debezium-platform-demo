@@ -1,0 +1,13 @@
+name: cache-source
+type: io.debezium.connector.postgresql.PostgresConnector
+schema: dummy
+connection:
+  id: {{SOURCE_CONN_ID}}
+config:
+  topic.prefix: cache
+  schema.include.list: inventory
+  table.include.list: inventory.products,inventory.products_on_hand
+  plugin.name: pgoutput
+  slot.name: cache_slot
+  publication.name: cache_pub
+  publication.autocreate.mode: filtered

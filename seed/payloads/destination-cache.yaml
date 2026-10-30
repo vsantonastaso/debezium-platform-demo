@@ -1,0 +1,6 @@
+name: cache-redis
+type: io.debezium.server.redis.RedisStreamChangeConsumer
+schema: dummy
+connection:
+  id: {{REDIS_CONN_ID}}
+config: {}

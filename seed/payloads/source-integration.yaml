@@ -1,0 +1,13 @@
+name: integration-source
+type: io.debezium.connector.postgresql.PostgresConnector
+schema: dummy
+connection:
+  id: {{SOURCE_CONN_ID}}
+config:
+  topic.prefix: integration
+  schema.include.list: inventory
+  table.include.list: inventory.orders
+  plugin.name: pgoutput
+  slot.name: integration_slot
+  publication.name: integration_pub
+  publication.autocreate.mode: filtered

@@ -1,0 +1,4 @@
+name: cache-redis
+type: REDIS
+config:
+  address: redis:6379

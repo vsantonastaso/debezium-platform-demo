@@ -1,0 +1,10 @@
+name: analytics-warehouse
+type: io.debezium.server.jdbc.JdbcChangeConsumer
+schema: dummy
+connection:
+  id: {{JDBC_CONN_ID}}
+config:
+  primary.key.mode: record_key
+  insert.mode: upsert
+  schema.evolution: basic
+  delete.enabled: "true"

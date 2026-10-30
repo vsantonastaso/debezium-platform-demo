@@ -1,0 +1,6 @@
+name: integration-webhook
+type: io.debezium.server.http.HttpChangeConsumer
+schema: dummy
+connection:
+  id: {{HTTP_CONN_ID}}
+config: {}

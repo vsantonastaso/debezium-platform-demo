@@ -1,0 +1,13 @@
+name: analytics-source
+type: io.debezium.connector.postgresql.PostgresConnector
+schema: dummy
+connection:
+  id: {{SOURCE_CONN_ID}}
+config:
+  topic.prefix: analytics
+  schema.include.list: inventory
+  table.include.list: inventory.orders,inventory.customers
+  plugin.name: pgoutput
+  slot.name: analytics_slot
+  publication.name: analytics_pub
+  publication.autocreate.mode: filtered

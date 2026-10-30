@@ -1,0 +1,4 @@
+name: integration-http
+type: HTTP
+config:
+  url: "{{WEBHOOK_URL}}"

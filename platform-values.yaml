@@ -1,0 +1,113 @@
+conductor:
+  image: quay.io/mvitale/platform-conductor:ddd68-final
+  imagePullPolicy: Always
+  extraVolumes:
+    - name: descriptors
+      emptyDir: {}
+  extraVolumeMounts:
+    - name: descriptors
+      mountPath: /opt/descriptors
+  descriptors:
+    official:
+      enabled: true
+      image: debezium/debezium-descriptors
+      mountPath: /opt/descriptors
+      registry: quay.io
+      tag: nightly
+  offset:
+    existingConfigMap: ""
+
+stage:
+  image: quay.io/debezium/platform-stage:nightly
+  imagePullPolicy: Always
+
+database:
+  auth:
+    existingSecret: ""
+  enabled: true
+  host: postgres
+  name: conductor
+
+debezium-operator:
+  enabled: true
+  image: quay.io/debezium/operator:nightly
+
+domain:
+  name: platform.debezium.io
+
+ingress:
+  className: nginx
+  enabled: true
+
+offset:
+  database:
+    host: postgres
+    name: conductor
+    password: conductor
+    port: 5432
+    username: conductor
+  reusePlatformDatabase: true
+
+schemaHistory:
+  database:
+    host: postgres
+    name: conductor
+    password: conductor
+    port: 5432
+    username: conductor
+  reusePlatformDatabase: true
+
+server:
+  image: quay.io/debezium/server:3.7.0.Final
+
+pipeline:
+  labels: {}
+
+monitoring:
+  otel:
+    enabled: true
+    jmxIntervalMs: 1000
+    metricExportIntervalMs: 1000
+    collector:
+      image: ghcr.io/open-telemetry/opentelemetry-collector-releases/opentelemetry-collector-contrib:0.151.0
+      replicas: 1
+      receivers:
+        grpc:
+          port: 4317
+        http:
+          port: 4318
+      processors:
+        batch:
+          timeout: 5s
+          sendBatchSize: 512
+      exporters:
+        prometheus:
+          port: 8889
+          namespace: debezium
+          resourceToTelemetryConversion: true
+          constLabels:
+            platform: debezium
+  prometheus:
+    url: "http://kube-prometheus-stack-prometheus.monitoring.svc.cluster.local:9090"
+    serviceMonitor:
+      enabled: true
+      scrapeInterval: 15s
+      labels:
+        prometheus: kube-prometheus
+alerting:
+  evaluation:
+    interval: "15s"
+  history:
+    retention: "30d"
+    cleanup:
+      interval: "24h"
+  webhook:
+    maxAttempts: 3
+    connectTimeout: "5S"
+    readTimeout: "10S"
+  email:
+    host: mailpit
+    port: 1025
+    from: alerts@debezium.local
+    startTls: DISABLED
+env: []

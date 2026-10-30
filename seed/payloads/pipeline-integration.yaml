@@ -1,0 +1,6 @@
+name: integration-pipeline
+logLevel: INFO
+source:
+  id: {{INTEGRATION_SOURCE_ID}}
+destination:
+  id: {{INTEGRATION_DEST_ID}}
